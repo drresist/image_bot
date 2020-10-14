@@ -13,7 +13,7 @@ from utils import show_exif, crop_image, extractCoordinates
 
 admin = ""
 
-# LOGGER 
+# LOGGER
 logging.basicConfig(filename='bot.log',
                     filemode='a',
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
@@ -72,7 +72,7 @@ def image_handler(message: telebot.types.Message):
 
 # TODO: parse callback and add utils function - GEO map
 # TODO: add function to delete images
-# TODO: automatic remove files 
+# TODO: automatic remove files
 # TODO: logging to txt file
 
 @bot.callback_query_handler(func=lambda call: call.data.endswith(BOT_OPTIONS))
@@ -115,6 +115,7 @@ def parse_call(call: telebot.types.CallbackQuery):
 
 
 # Delete images by command #clean. Only access to admin acc
+
 @bot.message_handler(regexp = "#clean")
 def delete_images(message: telebot.types.Message):
     # if message.from_user in admin:

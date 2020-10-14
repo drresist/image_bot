@@ -1,5 +1,7 @@
 from PIL import Image, ImageFile
 from PIL.ExifTags import TAGS, GPSTAGS
+import os
+from loguru import logging
 
 
 def get_exif(image: Image.isImageType):
@@ -13,7 +15,7 @@ def get_exif(image: Image.isImageType):
     return props
 
 
-def extractCoordinates(image: Image.isImageType) -> list: 
+def extractCoordinates(image: Image.isImageType) -> list:
     exifValue = get_exif(image)
     latRef = exifValue['GPSInfo'][1]
     longitRef = exifValue['GPSInfo'][3]
@@ -27,7 +29,7 @@ def extractCoordinates(image: Image.isImageType) -> list:
         'GPSLatitudeRef': exifValue['GPSInfo'][1],
         'GPSLongitudeRef': exifValue['GPSInfo'][3],
     }
-    
+
     if "GPSLatitude" in gpsData:
         lat = gpsData["GPSLatitude"]
         lat = decimalCoordinatesToDegress(lat)
@@ -55,7 +57,7 @@ def decimalCoordinatesToDegress(coord):
 
 
 def show_exif(image):
-    """ Полный экзиф"""
+    # Return exif as str to show
     exif = get_exif(image)
     try:
         exif_to_print = (
@@ -74,7 +76,6 @@ def show_exif(image):
             + "\nДиафрагма: " + "f/" + str(exif["FNumber"])
             + "\nФокусное расстояние: " + str(exif["FocalLength"]) + " mm"
         )
-
     return exif_to_print
 
 
@@ -82,6 +83,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 # Crop
+# TODO: Rewrite to more simple func
 def crop_image(image, n=1, size=None):
 
     # Crop center of image 100%
